@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Spring Boot Thymeleaf Hello World Example</title>
+
+    <link rel="stylesheet" th:href="@{bootstrap-5.2.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{agreed-purchase/css/style.css}"/>
+
+    <script type="text/javascript" th:src="@{jquery-3.6.4/jquery.min.js}"></script>
+
+</head>
+
+<body>
+
+<main role="main" class="container">
+
+    <div class="d-flex align-items-center p-3 my-3 text-white bg-orange rounded shadow-sm">
+        <div class="lh-1">
+            <h1 class="h6 mb-0 text-white lh-1">Agree Purchasse</h1>
+            <small>Desafio Técnico 2023</small>
+        </div>
+    </div>
+
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+
+        <div class="row">
+            <div class="col">
+
+                <h6 class="border-bottom pb-2 mb-3">Purchase Information</h6>
+                <div class="mb-3">
+                    <label for="formControlDiscount" class="form-label">Discount</label>
+                    <input type="number" min="0" max="100" step=".01" class="form-control" id="formControlDiscount"
+                           placeholder="10.00">
+                </div>
+                <div class="mb-3">
+                    <label for="formControlDiscountType" class="form-label">Discount Type</label>
+                    <select id="formControlDiscountType" class="form-select">
+                        <option value="DELIVERY">Delivery</option>
+                        <option value="PERCENT">Percent</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="formControlFee" class="form-label">Fee</label>
+                    <input type="number" min="0" max="100" step=".01" class="form-control" id="formControlFee"
+                           placeholder="10.00">
+                </div>
+            </div>
+            <div class="col">
+                <h6 class="border-bottom pb-2 mb-3">Pix Receiver</h6>
+                <div class="mb-3">
+                    <label for="formControlReceive" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="formControlReceive">
+                </div>
+                <div class="mb-3">
+                    <label for="formControlPixKey" class="form-label">Pix Key</label>
+                    <input type="text" class="form-control" id="formControlPixKey">
+                </div>
+                <div class="mb-3">
+                    <label for="formControlPixDescription" class="form-label">Pix Description</label>
+                    <input type="text" class="form-control" id="formControlPixDescription">
+                </div>
+            </div>
+
+
+            <h6 class="border-bottom pb-2 mb-3">Itens</h6>
+            <small class="d-block text-end mt-3">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemModal">
+                    Add Item
+                </button>
+            </small>
+            <table class="table" id="table-item">
+                <thead>
+                <tr>
+                    <th scope="col" width="1%">#</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Friend</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col" width="1%"></th>
+                </tr>
+                </thead>
+            </table>
+
+            <small class="d-block text-end mt-3">
+                <button type="button" class="btn btn-primary" onclick="calculate()">Calculation</button>
+            </small>
+
+        </div>
+
+    </div>
+
+</main>
+<!-- /.container -->
+
+<!-- Modal Adicionar Item -->
+<div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="itemModalLabel">Adicionar Item</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="formControlAmount" class="form-label">Amount</label>
+                    <input type="number" min="0" max="100" step=".01" class="form-control" id="formControlAmount"
+                           placeholder="10.00">
+                </div>
+                <div class="mb-3">
+                    <label for="formControlFriend" class="form-label">Requester</label>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary"
+                                type="button" id="button-addon"
+                                data-bs-toggle="modal" data-bs-target="#itemFriend">Add</button>
+                        <select id="formControlFriend" class="form-select">
+                            <option value="Pix Receiver">Pix Receiver</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="formControlDescription" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="formControlDescription">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addLine('table-item')">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Adicionar Friend -->
+<div class="modal fade" id="itemFriend" tabindex="-2" aria-labelledby="itemModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="itemModalFriendLabel">Adicionar Item</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="formControlNameFriend" class="form-label">Name Friend</label>
+                    <input type="text" class="form-control" id="formControlNameFriend">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addFriend()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Adicionar Friend -->
+<div class="modal fade" id="itemModalTotal" tabindex="-2" aria-labelledby="itemModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="itemModalTotalLabel">Agreed Purchase</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table" id="table-total">
+                    <thead>
+                    <tr>
+                        <th scope="col">Friend</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{qrcode/qrcode.min.js}"></script>
+<!-- Modal QrCode -->
+<div class="modal fade" id="itemModalQrCode" tabindex="-2" aria-labelledby="itemModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="itemModalQrCodeLabel">QR Code</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+
+                <div id="qrcode"></div>
+                <hr>
+                <div id="copy-paste"></div>
+                <input type="hidden" id="hd-copy-paste">
+                <button type="button" class="btn btn-primary" onclick="copyContentCopyPaste()">Copy</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" th:src="@{agreed-purchase/js/script.js}"></script>
+<script type="text/javascript" th:src="@{bootstrap-5.2.3/js/bootstrap.min.js}"></script>
+</body>
+</html>
