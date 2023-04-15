@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Spring Boot Thymeleaf Hello World Example</title>
+    <title>Agreed Purchase UI</title>
 
     <link rel="stylesheet" th:href="@{bootstrap-5.2.3/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{agreed-purchase/css/style.css}"/>
@@ -48,6 +48,7 @@
                            placeholder="10.00">
                 </div>
             </div>
+
             <div class="col">
                 <h6 class="border-bottom pb-2 mb-3">Pix Receiver</h6>
                 <div class="mb-3">
@@ -61,6 +62,10 @@
                 <div class="mb-3">
                     <label for="formControlPixDescription" class="form-label">Pix Description</label>
                     <input type="text" class="form-control" id="formControlPixDescription">
+                </div>
+                <div class="mb-3">
+                    <label for="formControlPixCity" class="form-label">City</label>
+                    <input type="text" class="form-control" id="formControlPixCity">
                 </div>
             </div>
 
@@ -105,7 +110,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="formControlAmount" class="form-label">Amount</label>
-                    <input type="number" min="0" max="100" step=".01" class="form-control" id="formControlAmount"
+                    <input type="number" min="0" max="1000" step="0.01" class="form-control" id="formControlAmount"
                            placeholder="10.00">
                 </div>
                 <div class="mb-3">
@@ -154,7 +159,7 @@
     </div>
 </div>
 
-<!-- Modal Adicionar Friend -->
+<!-- Modal Total -->
 <div class="modal fade" id="itemModalTotal" tabindex="-2" aria-labelledby="itemModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

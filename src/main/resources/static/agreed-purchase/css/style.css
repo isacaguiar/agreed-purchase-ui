@@ -30,3 +30,7 @@ img {
   margin: auto;
   display: block;
 }
+
+.error-msg{
+   color: #f30; /* cor do texto */
+}

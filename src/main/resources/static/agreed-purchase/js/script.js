@@ -5,6 +5,10 @@ let mapPersonAddFee;
 
 var amountAux;
 
+function isNumber(n){
+    return Number(n) === n && n % 1 !== 0;
+}
+
 function charge(id) {
     var tempKey;
     var tempValue;
@@ -76,11 +80,11 @@ function copyContentCopyPaste() {
 function generateCopyPaste(value) {
 
     var temp = new Object();
-    temp.pixKey = "isacaguiar@gmail.com";
-    temp.description = "Teste";
-    temp.merchantName = "Isac Aguiar";
-    temp.merchantCity = "Salvador";
-    temp.txid = "XXXXX";
+    temp.pixKey = $('#formControlPixKey').val();
+    temp.description = $('#formControlDescription').val();
+    temp.merchantName = $('#formControlReceive').val();
+    temp.merchantCity = $('#formControlPixCity').val();
+    temp.txid = crypto.randomUUID();
     temp.amount = value;
     var json = JSON.stringify(temp);
 
@@ -90,10 +94,7 @@ function generateCopyPaste(value) {
          data : json,
          crossDomain: true,
          contentType: "application/json; charset=utf-8",
-         dataType: "json",
-         beforeSend : function(){
-              //$("#resultado").html("ENVIANDO...");
-         }
+         dataType: "json"
     })
     .done(function(data){
          var response = JSON.parse(JSON.stringify(data));
@@ -108,6 +109,44 @@ function generateCopyPaste(value) {
 }
 
 function calculate() {
+
+    $(".error-msg").remove();
+    var erromsg = '<div class="error-msg">Required field</span></div>';
+
+    var formControlPixCity = $('#formControlPixCity');
+    var formControlPixKey = $('#formControlPixKey');
+    var formControlReceive = $('#formControlReceive');
+    var formControlFee = $('#formControlFee');
+    var formControlDiscount = $('#formControlDiscount');
+
+    if(!formControlDiscount.val()) {
+        formControlDiscount.after(erromsg);
+        $(".error-msg span").text("Field required");
+        return;
+    }
+
+    if(!formControlFee.val()) {
+        formControlFee.after(erromsg);
+        $(".error-msg span").text("Field required");
+        return;
+    }
+
+    if(!formControlReceive.val()) {
+        formControlReceive.after(erromsg);
+        $(".error-msg span").text("Field required");
+        return;
+    }
+    if(!formControlPixKey.val()) {
+        formControlPixKey.after(erromsg);
+        $(".error-msg span").text("Field required");
+        return;
+    }
+    if(!formControlPixCity.val()) {
+        formControlPixCity.after(erromsg);
+        $(".error-msg span").text("Field required");
+        return;
+    }
+
     prepareObject();
     var json = JSON.stringify(purchase);
     $.ajax({
@@ -133,10 +172,22 @@ function calculate() {
 }
 
 function addFriend() {
+    // remove as mensagens de erro
+    $(".erro-msg").remove();
+
+    var erromsg = '<div class="error-msg">Required field</span></div>';
+    var name = $('#formControlNameFriend');
+    if(!name.val() || name.val().length < 3) {
+        name.after(erromsg);
+        $(".erro-msg span").text("Field");
+        return;
+    }
+
     var combobox = document.querySelector('#formControlFriend');
     var friend = document.createElement('option');
     friend.text = $('#formControlNameFriend').val();
     friend.value = $('#formControlNameFriend').val();
+
     combobox.add(friend);
     $('#formControlNameFriend').val('');
     $('#formControlFriend').val(friend.value);
@@ -173,6 +224,30 @@ function removeLine(line) {
 
 var identificador = 0;
 function addLine(tableId) {
+
+    // remove as mensagens de erro
+    $(".error-msg").remove();
+
+    var erromsg = '<div class="error-msg">Required field</span></div>';
+    var formControlAmount = $('#formControlAmount');
+    var formControlDescription = $('#formControlDescription');
+    var formControlFriend = $('#formControlFriend');
+    if(!formControlAmount.val()) {
+        formControlAmount.after(erromsg);
+        $(".error-msg span").text("Field required");
+        return;
+    }
+    if(!formControlDescription.val()) {
+        formControlDescription.after(erromsg);
+        $(".error-msg span").text("Field format invalid");
+        return;
+    }
+    if(!formControlFriend.val()) {
+        formControlFriend.after(erromsg);
+        $(".error-msg span").text("Field format invalid");
+        return;
+    }
+
     var table = document.getElementById(tableId);
     var numberLines = table.rows.length;
     var line = table.insertRow(numberLines);
