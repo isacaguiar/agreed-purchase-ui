@@ -77,6 +77,13 @@ function copyContentCopyPaste() {
     });
 }
 
+function generateTxid(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
 function generateCopyPaste(value) {
 
     var temp = new Object();
@@ -84,7 +91,7 @@ function generateCopyPaste(value) {
     temp.description = $('#formControlDescription').val();
     temp.merchantName = $('#formControlReceive').val();
     temp.merchantCity = $('#formControlPixCity').val();
-    temp.txid = crypto.randomUUID();
+    temp.txid = generateTxid(100, 999);//crypto.randomUUID();
     temp.amount = value;
     var json = JSON.stringify(temp);
 
